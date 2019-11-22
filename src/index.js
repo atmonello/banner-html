@@ -1,4 +1,1 @@
-(() => {
-  const name = 'André';
-  alert(`Olá ${name}`);
-})();
+import './assets/stylesheets/base.scss';
