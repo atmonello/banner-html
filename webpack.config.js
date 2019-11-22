@@ -13,10 +13,19 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          'style-loader',
           'css-loader',
           'sass-loader'
         ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [{
+          loader: 'file-loader',
+          options: {
+            name: 'assets/img/[name].[ext]'
+          }
+        }]
       }
     ]
   },
