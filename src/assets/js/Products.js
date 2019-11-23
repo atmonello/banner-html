@@ -12,5 +12,31 @@ fetch('/products.json')
     Loaded = true;
   });
 
+function LoadImages(container, products) {
+  products.map((item, index) => {
+    const imgEl = document.createElement('img');
+    imgEl.src = `/img/${item.image}`;
+    const product = container.querySelector(`#product-${index + 1} .product-image`);
+    product.appendChild(imgEl);
+  });
+}
 
-export { Products, Loaded };
+function LoadPrices(products) {
+  products.map((item, index) => {
+    const productPrice = document.querySelector(`#product-${index + 1} .product-price`);
+    if (item.sale_price) {
+      productPrice.innerHTML += (`<span class="product-price__sale">${item.sale_price}</span>`);
+    }
+    if (item.old_price) {
+      productPrice.innerHTML += (`<span class="product-price__old">${item.old_price}</span>`);
+    }
+  });
+}
+
+
+export {
+  Products,
+  Loaded,
+  LoadImages,
+  LoadPrices,
+};

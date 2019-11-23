@@ -18,18 +18,9 @@
       flex: 1 0;
       display: grid;
       grid-template-areas: "product-1 product-2" "product-3 product-4";
-      grid-template-columns: 50% 50%;
-      grid-template-rows: 50% 50%;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
       grid-gap: 1px;
-    }
-
-    &__item {
-      border: 1px solid rgba(0, 0, 0, 0.2);
-
-      &--active, &:hover {
-        border-color: red;
-        border-width: 2px;
-      }
     }
 
     &__footer {
