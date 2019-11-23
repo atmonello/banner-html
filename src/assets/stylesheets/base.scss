@@ -1,5 +1,12 @@
-$backgroundColor: #dadada;
+@import './layout.scss';
+@import './colors.scss';
 
 body {
   background-color: $backgroundColor;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

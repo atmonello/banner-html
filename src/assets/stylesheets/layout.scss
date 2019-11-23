@@ -1,0 +1,39 @@
+.banner {
+  &-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  &-wrapper {
+    width: 300px;
+    height: 250px;
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin: 20px 0;
+    flex-direction: column;
+    padding: 5px 5px 0;
+
+    &__products {
+      flex: 1 0;
+      display: grid;
+      grid-template-areas: "product-1 product-2" "product-3 product-4";
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 50% 50%;
+      grid-gap: 1px;
+    }
+
+    &__item {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+
+      &--active, &:hover {
+        border-color: red;
+        border-width: 2px;
+      }
+    }
+
+    &__footer {
+      flex: 0 0 50px;
+    }
+  }
+}
