@@ -1,5 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -15,34 +16,41 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-          'sass-loader'
-        ]
+          'sass-loader',
+        ],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [{
-          loader: 'file-loader',
+          loader: 'url-loader',
           options: {
-            name: 'assets/img/[name].[ext]'
-          }
-        }]
-      }
-    ]
+            limit: 8000,
+            name: 'assets/img/[name].[ext]',
+          },
+        }],
+      },
+    ],
   },
   resolve: {
-    extensions: ['*', '.js']
+    extensions: ['*', '.js'],
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'styles.css',
-    })
+    }),
+    new HtmlWebpackPlugin({
+      hash: true,
+      template: path.resolve(__dirname, 'src', 'index.html'),
+      filename: path.resolve(__dirname, 'public', 'index.html'),
+      title: 'Banner HTML',
+    }),
   ],
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'public')
-  }
-}
+    contentBase: path.resolve(__dirname, 'public'),
+  },
+};

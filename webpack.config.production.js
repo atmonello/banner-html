@@ -1,5 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -15,31 +16,46 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader'
-        ]
+          'sass-loader',
+        ],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [{
-          loader: 'file-loader',
+          loader: 'url-loader',
           options: {
-            name: 'assets/img/[name].[ext]'
-          }
-        }]
-      }
-    ]
+            limit: 8000,
+            name: 'assets/img/[name].[ext]',
+          },
+        }],
+      },
+    ],
   },
   resolve: {
-    extensions: ['*', '.js']
+    extensions: ['*', '.js'],
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'styles.css',
-    })
+    }),
+    new HtmlWebpackPlugin({
+      hash: true,
+      filename: path.resolve('public', 'index.html'),
+      title: 'Banner HTML',
+      minify: {
+        html5: true,
+        collapseWhitespace: true,
+        ignoreCustomComments: true,
+        minifyCSS: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+        removeTagWhitespace: true,
+      },
+    }),
   ],
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
-}
+};
