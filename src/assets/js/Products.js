@@ -18,10 +18,20 @@ const productImages = {
 
 let toggleCycle = true;
 
+const calculateDiscount = (old, sale) => {
+  const oldNumber = Number(old.split(' ')[1].replace(',', '.'));
+  const saleNumber = Number(sale.split(' ')[1].replace(',', '.'));
+  return 100 - Math.floor((saleNumber * 100) / oldNumber);
+};
+
 const insertPrice = (index) => {
   const salePrice = products[index].sale_price;
   const oldPrice = products[index].old_price;
   const productElement = document.querySelector(`#product-${index + 1}`);
+
+  productElement.dataset.discount = salePrice && oldPrice
+    ? `-${calculateDiscount(oldPrice, salePrice)}%`
+    : null;
 
   if (salePrice) {
     productElement.classList.add('has-sale-price');
@@ -36,11 +46,13 @@ const insertPrice = (index) => {
     productElement.classList.add('has-old-price');
     const oldPriceElement = document.createElement('span');
     oldPriceElement.classList.add('old-price');
+    oldPriceElement.classList.add('hidden');
     oldPriceElement.innerHTML = oldPrice;
     const pricesWrapper = productElement.querySelector('.prices-wrapper');
     pricesWrapper.appendChild(oldPriceElement);
   }
 };
+
 
 const cycleProducts = () => {
   let current = 1;
@@ -66,6 +78,22 @@ const cycleProducts = () => {
     }
   }, 4000);
 };
+
+const cyclePrices = () => {
+  const pricesWrappersList = document.querySelectorAll('.prices-wrapper');
+
+  setInterval(() => {
+    pricesWrappersList.forEach((wrapper) => {
+      const prices = [...wrapper.children];
+      prices.forEach((item) => {
+        if (prices.length > 1) {
+          item.classList.toggle('hidden');
+        }
+      });
+    });
+  }, 2000);
+};
+
 
 const createProducts = (items) => {
   const productsWrapper = document.querySelector('.banner-wrapper__products');
@@ -93,6 +121,7 @@ const createProducts = (items) => {
   });
 
   cycleProducts();
+  cyclePrices();
 };
 
 export { products, optout, createProducts };
