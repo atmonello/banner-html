@@ -1,13 +1,15 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable quote-props */
-import data from '../products.json';
 import boots from '../img/boots.jpg';
 import dress from '../img/dress.jpg';
 import gym from '../img/gym.jpg';
 import tshirt from '../img/tshirt.jpg';
 
+import data from '../products.json';
+import Cycles from './Cycles';
 
 const { products, optout_url: optout } = data;
+const cycles = new Cycles();
 
 const productImages = {
   'boots': boots,
@@ -53,48 +55,6 @@ const insertPrice = (index) => {
   }
 };
 
-
-const cycleProducts = () => {
-  let current = 1;
-  let product = document.querySelector(`#product-${current}`);
-  product.classList.add('banner-wrapper__item--active');
-
-  setInterval(() => {
-    if (toggleCycle) {
-      product.classList.remove('banner-wrapper__item--active');
-
-      current += 1;
-
-      product = document.querySelector(`#product-${current}`);
-
-      if (!product) {
-        current = 1;
-        product = document.querySelector(`#product-${current}`);
-      }
-
-      product.classList.add('banner-wrapper__item--active');
-    } else {
-      product.classList.remove('banner-wrapper__item--active');
-    }
-  }, 4000);
-};
-
-const cyclePrices = () => {
-  const pricesWrappersList = document.querySelectorAll('.prices-wrapper');
-
-  setInterval(() => {
-    pricesWrappersList.forEach((wrapper) => {
-      const prices = [...wrapper.children];
-      prices.forEach((item) => {
-        if (prices.length > 1) {
-          item.classList.toggle('hidden');
-        }
-      });
-    });
-  }, 2000);
-};
-
-
 const createProducts = (items) => {
   const productsWrapper = document.querySelector('.banner-wrapper__products');
 
@@ -109,19 +69,24 @@ const createProducts = (items) => {
     productSection.innerHTML = `<img src="${productImages[imageNoExtension]}"><div class="prices-wrapper"></div>`;
     productsWrapper.appendChild(productSection);
 
-    productSection.addEventListener('mouseover', () => {
+    productSection.addEventListener('mouseover', ({ target }) => {
+      const id = target.dataset.product;
       const productsList = document.querySelectorAll('.banner-wrapper__item');
       productsList.forEach((el) => el.classList.remove('banner-wrapper__item--active'));
       toggleCycle = false;
+      cycles.cycleProducts(toggleCycle, id);
     });
+
     productSection.addEventListener('mouseout', () => {
       toggleCycle = true;
+      cycles.cycleProducts();
     });
+
     insertPrice(index);
   });
 
-  cycleProducts();
-  cyclePrices();
+  cycles.cycleProducts();
+  cycles.cyclePrices();
 };
 
 export { products, optout, createProducts };
