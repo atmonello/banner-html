@@ -1,18 +1,8 @@
 import './assets/stylesheets/base.scss';
-import {
-  Products as GetProducts, Loaded, LoadImages, LoadPrices,
-} from './assets/js/Products';
+import { products, optout, createProducts } from './assets/js/Products';
+import logoImage from './assets/img/voucher.png';
 
-const checkLoadedProducts = setInterval(() => {
-  if (Loaded) {
-    clearInterval(checkLoadedProducts);
-    const div = document.createElement('div');
-    div.innerHTML = JSON.stringify(GetProducts);
-    document.body.appendChild(div);
+const logoElement = document.querySelector('.banner-wrapper__footer #logo');
+logoElement.src = logoImage;
 
-    const productsContainer = document.querySelector('.banner-wrapper__products');
-
-    LoadImages(productsContainer, GetProducts.products);
-    LoadPrices(GetProducts.products);
-  }
-}, 100);
+createProducts(products);
