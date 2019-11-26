@@ -5,6 +5,14 @@
     flex-direction: column;
     align-items: center;
 
+    .prices-wrapper {
+      font-weight: bold;
+      .old-price {
+        text-decoration: line-through;
+        color: red;
+      }
+    }
+
     img {
       width: 64px;
       height: 64px;

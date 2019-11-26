@@ -16,6 +16,8 @@ const productImages = {
   'tshirt': tshirt,
 };
 
+let toggleCycle = true;
+
 const insertPrice = (index) => {
   const salePrice = products[index].sale_price;
   const oldPrice = products[index].old_price;
@@ -24,6 +26,7 @@ const insertPrice = (index) => {
   if (salePrice) {
     productElement.classList.add('has-sale-price');
     const salePriceElement = document.createElement('span');
+    salePriceElement.classList.add('sale-price');
     salePriceElement.innerHTML = salePrice;
     const pricesWrapper = productElement.querySelector('.prices-wrapper');
     pricesWrapper.appendChild(salePriceElement);
@@ -32,10 +35,36 @@ const insertPrice = (index) => {
   if (oldPrice) {
     productElement.classList.add('has-old-price');
     const oldPriceElement = document.createElement('span');
+    oldPriceElement.classList.add('old-price');
     oldPriceElement.innerHTML = oldPrice;
     const pricesWrapper = productElement.querySelector('.prices-wrapper');
     pricesWrapper.appendChild(oldPriceElement);
   }
+};
+
+const cycleProducts = () => {
+  let current = 1;
+  let product = document.querySelector(`#product-${current}`);
+  product.classList.add('banner-wrapper__item--active');
+
+  setInterval(() => {
+    if (toggleCycle) {
+      product.classList.remove('banner-wrapper__item--active');
+
+      current += 1;
+
+      product = document.querySelector(`#product-${current}`);
+
+      if (!product) {
+        current = 1;
+        product = document.querySelector(`#product-${current}`);
+      }
+
+      product.classList.add('banner-wrapper__item--active');
+    } else {
+      product.classList.remove('banner-wrapper__item--active');
+    }
+  }, 4000);
 };
 
 const createProducts = (items) => {
@@ -51,8 +80,19 @@ const createProducts = (items) => {
 
     productSection.innerHTML = `<img src="${productImages[imageNoExtension]}"><div class="prices-wrapper"></div>`;
     productsWrapper.appendChild(productSection);
+
+    productSection.addEventListener('mouseover', () => {
+      const productsList = document.querySelectorAll('.banner-wrapper__item');
+      productsList.forEach((el) => el.classList.remove('banner-wrapper__item--active'));
+      toggleCycle = false;
+    });
+    productSection.addEventListener('mouseout', () => {
+      toggleCycle = true;
+    });
     insertPrice(index);
   });
+
+  cycleProducts();
 };
 
 export { products, optout, createProducts };
