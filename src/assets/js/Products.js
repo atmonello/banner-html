@@ -9,7 +9,7 @@ import tshirt from '../img/tshirt.jpg';
 import data from '../products.json';
 import Cycles from './Cycles';
 
-const { products, optout_url: optout } = data;
+const { products, optout_url: optout, logo_url: logoUrl } = data;
 const cycles = new Cycles();
 
 const productImages = {
@@ -75,7 +75,7 @@ const createListeners = () => {
             <button class="btn btn-close">X</button>
             <p class="item-name">${clone.dataset.item}</p>
             ${clone.innerHTML}
-            <button class="btn btn-purchase">Comprar</button>
+            <button class="btn btn-purchase"><a href=${clone.dataset.productUrl} target="_blank">Comprar</a><button>
           `;
           productsWrapper.appendChild(clone);
 
@@ -112,7 +112,12 @@ const createProducts = (items) => {
     const imageNoExtension = item.image.split('.')[0];
 
     productsWrapper.innerHTML += `
-      <section class="banner-wrapper__item" data-product="${index + 1}" data-item="${item.name}">
+      <section 
+        class="banner-wrapper__item" 
+        data-product="${index + 1}" 
+        data-item="${item.name}"
+        data-product-url="${item.url}"
+      >
         <img src="${productImages[imageNoExtension]}">
         <div class="prices-wrapper"></div>
       </section>
@@ -126,4 +131,6 @@ const createProducts = (items) => {
   cycles.cyclePrices();
 };
 
-export { products, optout, createProducts };
+export {
+  products, optout, logoUrl, createProducts,
+};
