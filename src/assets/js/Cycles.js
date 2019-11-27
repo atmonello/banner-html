@@ -1,4 +1,4 @@
-export default class BannerCycles {
+class BannerCycles {
   constructor() {
     this.product = null;
     this.id = 1;
@@ -44,3 +44,5 @@ export default class BannerCycles {
     }
   }
 }
+
+export default new BannerCycles();
