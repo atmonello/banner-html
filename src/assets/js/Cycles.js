@@ -1,14 +1,14 @@
-class BannerCycles {
+export default class BannerCycles {
   constructor() {
     this.product = null;
     this.id = 1;
     this.priceCycle = null;
     this.productCycle = null;
+    this.toggle = true;
   }
 
-  cyclePrices() {
-    const pricesWrappersList = document.querySelectorAll('.prices-wrapper');
-
+  cyclePrices(product) {
+    const pricesWrappersList = product.querySelectorAll('.prices-wrapper');
     this.priceCycle = setInterval(() => {
       pricesWrappersList.forEach((wrapper) => {
         const prices = [...wrapper.children];
@@ -21,28 +21,30 @@ class BannerCycles {
     }, 2000);
   }
 
-  cycleProducts(toggle = true) {
-    if (this.id > 4) {
-      this.id = 1;
-    }
-    this.product = document.querySelector(`.banner-wrapper__item[data-product="${this.id}"`);
-
-    if (toggle) {
-      this.product.classList.add('banner-wrapper__item--active');
+  cycleProducts() {
+    if (this.toggle) {
       this.productCycle = setInterval(() => {
-        this.product.classList.remove('banner-wrapper__item--active');
-        this.product = document.querySelector(`.banner-wrapper__item[data-product="${this.id}"`);
-        this.product.classList.add('banner-wrapper__item--active');
         this.id += 1;
+
         if (this.id > 4) {
           this.id = 1;
         }
-      }, 4000);
+
+        const $oldProduct = document.querySelector('.banner-wrapper__item--active');
+        if ($oldProduct) {
+          $oldProduct.classList.remove('banner-wrapper__item--active');
+        }
+
+        const $product = document.querySelector(`.banner-wrapper__item[data-product="${this.id}"]`);
+        $product.classList.add('banner-wrapper__item--active');
+      }, 1500);
     } else {
       clearInterval(this.productCycle);
-      this.product.classList.remove('banner-wrapper__item--active');
+      this.id = 1;
     }
   }
-}
 
-export default new BannerCycles();
+  toggleProductCycle(bool = true) {
+    this.toggle = bool;
+  }
+}

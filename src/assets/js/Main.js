@@ -1,26 +1,13 @@
 /* eslint-disable quote-props */
-import boots from '../img/boots.jpg';
-import dress from '../img/dress.jpg';
-import gym from '../img/gym.jpg';
-import tshirt from '../img/tshirt.jpg';
 import logoImage from '../img/voucher.png';
-
 import {
   products,
   // optout,
   logoUrl,
-} from './Products';
+} from './Data';
 
-import Cycles from './Cycles';
+import Product from './Product';
 
-const productImages = {
-  'boots': boots,
-  'dress': dress,
-  'gym': gym,
-  'tshirt': tshirt,
-};
-
-let toggleCycle = true;
 let isHovering = false;
 
 const logoElement = document.querySelector('.banner-wrapper__footer #logo');
@@ -69,10 +56,6 @@ const createListeners = () => {
       if (!isHovering) {
         isHovering = true;
       }
-
-      toggleCycle = false;
-      Cycles.cycleProducts(toggleCycle);
-
       setTimeout(() => {
         if (isHovering) {
           const productsWrapper = document.querySelector('.banner-wrapper__products');
@@ -104,12 +87,6 @@ const createListeners = () => {
         }
       }, 2000);
     });
-
-    product.addEventListener('mouseleave', () => {
-      toggleCycle = true;
-      isHovering = false;
-      Cycles.cycleProducts();
-    });
   });
 };
 
@@ -117,26 +94,13 @@ const createProducts = (items) => {
   const productsWrapper = document.querySelector('.banner-wrapper__products');
 
   items.forEach((item, index) => {
-    const imageNoExtension = item.image.split('.')[0];
-
-    productsWrapper.innerHTML += `
-      <section 
-        class="banner-wrapper__item" 
-        data-product="${index + 1}" 
-        data-item="${item.name}"
-        data-product-url="${item.url}"
-      >
-        <img src="${productImages[imageNoExtension]}">
-        <div class="prices-wrapper"></div>
-      </section>
-    `;
-
-    insertPrice(index);
-    createListeners();
+    const newProduct = new Product();
+    newProduct.init({
+      product: item,
+      productID: index + 1,
+      wrapper: productsWrapper,
+    });
   });
-
-  Cycles.cycleProducts();
-  Cycles.cyclePrices();
 };
 
 export default createProducts;
