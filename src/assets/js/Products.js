@@ -27,9 +27,11 @@ const calculateDiscount = (old, sale) => {
 };
 
 const insertPrice = (index) => {
+  const productElement = document.querySelector(`.banner-wrapper__item[data-product="${index + 1}"`);
+  const pricesWrapper = productElement.querySelector('.prices-wrapper');
+
   const salePrice = products[index].sale_price;
   const oldPrice = products[index].old_price;
-  const productElement = document.querySelector(`#product-${index + 1}`);
 
   productElement.dataset.discount = salePrice && oldPrice
     ? `-${calculateDiscount(oldPrice, salePrice)}%`
@@ -37,52 +39,49 @@ const insertPrice = (index) => {
 
   if (salePrice) {
     productElement.classList.add('has-sale-price');
-    const salePriceElement = document.createElement('span');
-    salePriceElement.classList.add('sale-price');
-    salePriceElement.innerHTML = salePrice;
-    const pricesWrapper = productElement.querySelector('.prices-wrapper');
-    pricesWrapper.appendChild(salePriceElement);
+    pricesWrapper.innerHTML += `<span class="sale-price">${salePrice}</span>`;
   }
 
   if (oldPrice) {
     productElement.classList.add('has-old-price');
-    const oldPriceElement = document.createElement('span');
-    oldPriceElement.classList.add('old-price');
-    oldPriceElement.classList.add('hidden');
-    oldPriceElement.innerHTML = oldPrice;
-    const pricesWrapper = productElement.querySelector('.prices-wrapper');
-    pricesWrapper.appendChild(oldPriceElement);
+    pricesWrapper.innerHTML += `<span class="old-price hidden">${oldPrice}</span>`;
   }
+};
+
+const createListeners = () => {
+  const productList = document.querySelectorAll('.banner-wrapper__item');
+
+  productList.forEach((product) => {
+    product.addEventListener('mouseenter', () => {
+      const activeProduct = document.querySelector('.banner-wrapper__item--active');
+      activeProduct.classList.remove('banner-wrapper__item--active');
+
+      toggleCycle = false;
+      cycles.cycleProducts(toggleCycle);
+    });
+
+    product.addEventListener('mouseleave', () => {
+      toggleCycle = true;
+      cycles.cycleProducts();
+    });
+  });
 };
 
 const createProducts = (items) => {
   const productsWrapper = document.querySelector('.banner-wrapper__products');
 
   items.map((item, index) => {
-    const productSection = document.createElement('section');
-    productSection.id = `product-${index + 1}`;
-    productSection.dataset.product = index + 1;
-    productSection.className = 'banner-wrapper__item';
-
     const imageNoExtension = item.image.split('.')[0];
 
-    productSection.innerHTML = `<img src="${productImages[imageNoExtension]}"><div class="prices-wrapper"></div>`;
-    productsWrapper.appendChild(productSection);
-
-    productSection.addEventListener('mouseover', ({ target }) => {
-      const id = target.dataset.product;
-      const productsList = document.querySelectorAll('.banner-wrapper__item');
-      productsList.forEach((el) => el.classList.remove('banner-wrapper__item--active'));
-      toggleCycle = false;
-      cycles.cycleProducts(toggleCycle, id);
-    });
-
-    productSection.addEventListener('mouseout', () => {
-      toggleCycle = true;
-      cycles.cycleProducts();
-    });
+    productsWrapper.innerHTML += `
+      <section class="banner-wrapper__item" data-product="${index + 1}">
+        <img src="${productImages[imageNoExtension]}">
+        <div class="prices-wrapper"></div>
+      </section>
+    `;
 
     insertPrice(index);
+    createListeners();
   });
 
   cycles.cycleProducts();
