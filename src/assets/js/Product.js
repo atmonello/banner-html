@@ -14,6 +14,8 @@ export default class Product {
     this.salePrice = null;
     this.oldPrice = null;
     this.pricesContainer = null;
+    this.checkHover = null;
+    this.clone = null;
   }
 
   init(config) {
@@ -49,9 +51,20 @@ export default class Product {
     this.el.dataset.item = this.name;
     this.el.dataset.productUrl = this.url;
 
-    this.el.innerHTML = `<img src="img/${this.logo}"><div class="prices-wrapper"></div>`;
+    this.el.innerHTML = `
+      <img src="img/${this.logo}">
+      <button class="btn btn-close">X</button>
+      <aside>
+        <p class="item-name">${this.name}</p>
+        <div class="prices-wrapper"></div>
+        <button class="btn btn-purchase">
+          <a href="${this.url}">Comprar</a>
+        </button>
+      </aside>
+    `;
     this.wrapper.appendChild(this.el);
     this.insertPrice();
+    this.startPriceCycle();
     this.bindEvents();
   }
 
@@ -68,8 +81,8 @@ export default class Product {
       this.pricesContainer.innerHTML += `<span class="old-price">${this.oldPrice}</span>`;
     }
 
-    if (this.salePrice && this.oldPrice) {
-      this.el.classList.add('has-sale-price', 'has-old-price');
+    if (this.el.classList.contains('has-sale-price')
+    && this.el.classList.contains('has-old-price')) {
       this.el.dataset.discount = this.salePrice && this.oldPrice
         ? `-${this.getPriceDiscount(this.oldPrice, this.salePrice)}%`
         : null;
@@ -90,7 +103,7 @@ export default class Product {
   }
 
   startPriceCycle() {
-    this.cycles.cyclePrices();
+    this.cycles.cyclePrices(this.el);
   }
 
   bindEvents() {
@@ -100,9 +113,23 @@ export default class Product {
 
   mouseEnter() {
     this.el.classList.add('banner-wrapper__item--active');
+    this.hover = true;
+
+    this.checkHover = setTimeout(() => {
+      if (this.hover) {
+        this.clone = this.el.cloneNode(true);
+        this.clone.classList.add('banner-wrapper__item--large');
+        this.wrapper.appendChild(this.clone);
+
+        const $closeBtn = this.clone.querySelector('.btn-close');
+        $closeBtn.onclick = () => this.clone.remove();
+      }
+    }, 2000);
   }
 
   mouseLeave() {
+    clearTimeout(this.checkHover);
     this.el.classList.remove('banner-wrapper__item--active');
+    this.hover = false;
   }
 }
