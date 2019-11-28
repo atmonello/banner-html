@@ -46,7 +46,7 @@
       height: 64px;
     }
 
-    &--active, &:hover {
+    &--active {
       &:not(.banner-wrapper__item--hover) {
         border-color: red;
         border-width: 2px;

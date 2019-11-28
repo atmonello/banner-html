@@ -52,6 +52,7 @@ export default class Product {
     this.el.innerHTML = `<img src="img/${this.logo}"><div class="prices-wrapper"></div>`;
     this.wrapper.appendChild(this.el);
     this.insertPrice();
+    this.bindEvents();
   }
 
   insertPrice() {
@@ -92,11 +93,16 @@ export default class Product {
     this.cycles.cyclePrices();
   }
 
+  bindEvents() {
+    this.el.addEventListener('mouseenter', this.mouseEnter.bind(this));
+    this.el.addEventListener('mouseleave', this.mouseLeave.bind(this));
+  }
+
   mouseEnter() {
-    this.addEventListener('mouseenter');
+    this.el.classList.add('banner-wrapper__item--active');
   }
 
   mouseLeave() {
-    this.addEventListener('mouseleave');
+    this.el.classList.remove('banner-wrapper__item--active');
   }
 }
