@@ -2,11 +2,13 @@
 import logoImage from '../img/voucher.png';
 import {
   products,
-  // optout,
   logoUrl,
 } from './Data';
 
 import Product from './Product';
+import Cycles from './Cycles';
+
+const cycles = new Cycles();
 
 const logoElement = document.querySelector('.banner-wrapper__footer #logo');
 logoElement.src = logoImage;
@@ -24,6 +26,7 @@ const createProducts = (items) => {
       product: item,
       productID: index + 1,
       wrapper: productsWrapper,
+      cycles,
     });
   });
 };
