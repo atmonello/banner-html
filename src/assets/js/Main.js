@@ -17,34 +17,6 @@ const logoLink = document.querySelector('.banner-wrapper__footer #link');
 logoLink.href = logoUrl;
 logoLink.setAttribute('target', '_blank');
 
-const calculateDiscount = (old, sale) => {
-  const oldNumber = Number(old.split(' ')[1].replace(',', '.'));
-  const saleNumber = Number(sale.split(' ')[1].replace(',', '.'));
-  return 100 - Math.floor((saleNumber * 100) / oldNumber);
-};
-
-const insertPrice = (index) => {
-  const productElement = document.querySelector(`.banner-wrapper__item[data-product="${index + 1}"`);
-  const pricesWrapper = productElement.querySelector('.prices-wrapper');
-
-  const salePrice = products[index].sale_price;
-  const oldPrice = products[index].old_price;
-
-  productElement.dataset.discount = salePrice && oldPrice
-    ? `-${calculateDiscount(oldPrice, salePrice)}%`
-    : null;
-
-  if (salePrice) {
-    productElement.classList.add('has-sale-price');
-    pricesWrapper.innerHTML += `<span class="sale-price">${salePrice}</span>`;
-  }
-
-  if (oldPrice) {
-    productElement.classList.add('has-old-price');
-    pricesWrapper.innerHTML += `<span class="old-price hidden">${oldPrice}</span>`;
-  }
-};
-
 const createListeners = () => {
   const productList = document.querySelectorAll('.banner-wrapper__item');
 
