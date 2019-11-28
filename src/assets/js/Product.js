@@ -117,6 +117,7 @@ export default class Product {
 
   mouseEnter() {
     this.cycles.cycleProducts(false);
+    this.cycles.removeActiveProducts();
 
     this.el.classList.add('banner-wrapper__item--active');
     this.hover = true;
@@ -137,6 +138,7 @@ export default class Product {
     clearTimeout(this.checkHover);
     this.el.classList.remove('banner-wrapper__item--active');
     this.hover = false;
+    this.cycles.setActiveProduct();
     this.cycles.cycleProducts();
   }
 }

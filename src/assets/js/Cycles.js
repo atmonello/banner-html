@@ -21,23 +21,31 @@ export default class BannerCycles {
     }, 2000);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  removeActiveProducts() {
+    const $activeProducts = document.querySelectorAll('.banner-wrapper__item--active');
+    $activeProducts.forEach((item) => {
+      item.classList.remove('banner-wrapper__item--active');
+    });
+  }
+
+  setActiveProduct() {
+    this.product = document.querySelector(`.banner-wrapper__item[data-product="${this.id}"]`);
+    this.product.classList.add('banner-wrapper__item--active');
+  }
+
   cycleProducts(bool = true) {
     this.toggle = bool;
 
     if (this.toggle) {
       if (!this.productCycle) {
         this.productCycle = setInterval(() => {
-          const $activeProducts = document.querySelectorAll('.banner-wrapper__item--active');
-          $activeProducts.forEach((item) => {
-            item.classList.remove('banner-wrapper__item--active');
-          });
+          this.removeActiveProducts();
           this.id += 1;
-
-          if (this.id > 4) {
+          if (this.id > 4 || this.id <= 0) {
             this.id = 1;
           }
-          const $product = document.querySelector(`.banner-wrapper__item[data-product="${this.id}"]`);
-          $product.classList.add('banner-wrapper__item--active');
+          this.setActiveProduct();
         }, 4000);
       }
     } else {
