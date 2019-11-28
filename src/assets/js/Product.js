@@ -55,7 +55,7 @@ export default class Product {
     this.el.dataset.productUrl = this.url;
 
     this.el.innerHTML = `
-      <img src="img/${this.logo}">
+      <img src="http://localhost:3001/products/images/${this.logo}">
       <button class="btn btn-close">X</button>
       <aside>
         <p class="item-name">${this.name}</p>
