@@ -9,6 +9,11 @@ import Product from './Product';
 import Cycles from './Cycles';
 
 const cycles = new Cycles();
+cycles.init({
+  total: products.length,
+  priceInterval: 2000,
+  productsInterval: 4000,
+});
 
 const logoElement = document.querySelector('.banner-wrapper__footer #logo');
 logoElement.src = logoImage;

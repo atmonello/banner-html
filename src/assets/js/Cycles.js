@@ -5,6 +5,20 @@ export default class BannerCycles {
     this.priceCycle = null;
     this.productCycle = null;
     this.toggle = true;
+    this.totalProducts = null;
+    this.productsInterval = null;
+    this.priceInterval = null;
+  }
+
+  init(config) {
+    const {
+      total,
+      productsInterval,
+      priceInterval,
+    } = config;
+    this.totalProducts = total;
+    this.productsInterval = productsInterval || 4000;
+    this.priceInterval = priceInterval || 2000;
   }
 
   cyclePrices(product) {
@@ -18,7 +32,7 @@ export default class BannerCycles {
           }
         });
       });
-    }, 2000);
+    }, this.priceInterval);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -42,11 +56,11 @@ export default class BannerCycles {
         this.productCycle = setInterval(() => {
           this.removeActiveProducts();
           this.id += 1;
-          if (this.id > 4 || this.id <= 0) {
+          if (this.id > this.totalProducts || this.id <= 0) {
             this.id = 1;
           }
           this.setActiveProduct();
-        }, 4000);
+        }, this.productsInterval);
       }
     } else {
       clearInterval(this.productCycle);
