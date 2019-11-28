@@ -61,7 +61,7 @@ export default class Product {
         <p class="item-name">${this.name}</p>
         <div class="prices-wrapper"></div>
         <button class="btn btn-purchase">
-          <a href="${this.url}">Comprar</a>
+          <a href="${this.url}" target="_blank">Comprar</a>
         </button>
       </aside>
     `;
