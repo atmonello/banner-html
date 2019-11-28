@@ -1,0 +1,33 @@
+{
+	"optout_url": "https://www.rtbhouse.com/optout-page/",
+	"logo_url": "https://www.rtbhouse.com/career/#!/jobs/ojDdafw3",
+	"products": [
+		{
+			"name": "Military Boots",
+			"image": "boots.jpg",
+			"old_price": "R$ 449,99",
+			"sale_price": "R$ 359,99",
+			"url": "https://www.rtbhouse.com/career/#!/jobs/oBdEafwm"
+		},
+		{
+			"name": "Black T-shirt",
+			"image": "tshirt.jpg",
+			"old_price": "R$ 60,00",
+			"sale_price": "R$ 49,99",
+			"url": "https://www.rtbhouse.com/career/#!/jobs/oTtFafwV"
+		},
+		{
+			"name": "Cotton Dress",
+			"image": "dress.jpg",
+			"old_price": "R$ 210,50",
+			"sale_price": "R$ 129,99",
+			"url": "https://www.rtbhouse.com/career/#!/jobs/oSmfbfwo"
+		},
+		{
+			"name": "Gym Outfit",
+			"image": "gym.jpg",
+			"sale_price": "R$ 189,00",
+			"url": "https://www.rtbhouse.com/career/#!/jobs/ozDB9fwG"
+		}
+	]
+}
