@@ -6,10 +6,16 @@
   "repository": "git@github.com:atmonello/banner-html.git",
   "author": "Andre Monello <atmonello@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@babel/runtime": "^7.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-async-to-generator": "^7.7.4",
     "@babel/plugin-transform-classes": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.1",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
@@ -20,6 +26,7 @@
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
+    "nodemon": "^2.0.1",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "url-loader": "^2.3.0",
@@ -29,6 +36,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "build": "webpack --config ./webpack.config.production.js --mode production"
+    "build": "webpack --config ./webpack.config.production.js --mode production",
+    "server": "nodemon src/server/server.js"
   }
 }
