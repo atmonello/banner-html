@@ -21,30 +21,29 @@ export default class BannerCycles {
     }, 2000);
   }
 
-  cycleProducts() {
+  cycleProducts(bool = true) {
+    this.toggle = bool;
+
     if (this.toggle) {
-      this.productCycle = setInterval(() => {
-        this.id += 1;
+      if (!this.productCycle) {
+        this.productCycle = setInterval(() => {
+          const $activeProducts = document.querySelectorAll('.banner-wrapper__item--active');
+          $activeProducts.forEach((item) => {
+            item.classList.remove('banner-wrapper__item--active');
+          });
+          this.id += 1;
 
-        if (this.id > 4) {
-          this.id = 1;
-        }
-
-        const $oldProduct = document.querySelector('.banner-wrapper__item--active');
-        if ($oldProduct) {
-          $oldProduct.classList.remove('banner-wrapper__item--active');
-        }
-
-        const $product = document.querySelector(`.banner-wrapper__item[data-product="${this.id}"]`);
-        $product.classList.add('banner-wrapper__item--active');
-      }, 1500);
+          if (this.id > 4) {
+            this.id = 1;
+          }
+          const $product = document.querySelector(`.banner-wrapper__item[data-product="${this.id}"]`);
+          $product.classList.add('banner-wrapper__item--active');
+        }, 4000);
+      }
     } else {
       clearInterval(this.productCycle);
+      this.productCycle = null;
       this.id = 1;
     }
-  }
-
-  toggleProductCycle(bool = true) {
-    this.toggle = bool;
   }
 }

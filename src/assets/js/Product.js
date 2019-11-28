@@ -1,5 +1,3 @@
-import Cycles from './Cycles';
-
 export default class Product {
   constructor() {
     this.url = '';
@@ -20,7 +18,7 @@ export default class Product {
 
   init(config) {
     const {
-      product, productID, wrapper,
+      product, productID, wrapper, cycles,
     } = config;
 
     const {
@@ -31,7 +29,7 @@ export default class Product {
       url,
     } = product;
 
-    this.cycles = new Cycles();
+    this.cycles = cycles;
     this.id = productID;
     this.wrapper = wrapper;
 
@@ -47,6 +45,11 @@ export default class Product {
   createProduct() {
     this.el = document.createElement('section');
     this.el.classList.add('banner-wrapper__item');
+
+    if (this.id === 1) {
+      this.el.classList.add('banner-wrapper__item--active');
+    }
+
     this.el.dataset.product = this.id;
     this.el.dataset.item = this.name;
     this.el.dataset.productUrl = this.url;
@@ -66,6 +69,7 @@ export default class Product {
     this.insertPrice();
     this.startPriceCycle();
     this.bindEvents();
+    this.cycles.cycleProducts();
   }
 
   insertPrice() {
@@ -112,6 +116,8 @@ export default class Product {
   }
 
   mouseEnter() {
+    this.cycles.cycleProducts(false);
+
     this.el.classList.add('banner-wrapper__item--active');
     this.hover = true;
 
@@ -131,5 +137,6 @@ export default class Product {
     clearTimeout(this.checkHover);
     this.el.classList.remove('banner-wrapper__item--active');
     this.hover = false;
+    this.cycles.cycleProducts();
   }
 }
