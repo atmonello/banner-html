@@ -106,8 +106,9 @@ export default class Product {
     return this.logo;
   }
 
-  startPriceCycle() {
-    this.cycles.cyclePrices(this.el);
+  startPriceCycle(element) {
+    const $el = element || this.el;
+    this.cycles.cyclePrices($el);
   }
 
   bindEvents() {
@@ -127,6 +128,8 @@ export default class Product {
         this.clone = this.el.cloneNode(true);
         this.clone.classList.add('banner-wrapper__item--large');
         this.wrapper.appendChild(this.clone);
+
+        this.startPriceCycle(this.clone);
 
         const $closeBtn = this.clone.querySelector('.btn-close');
         $closeBtn.onclick = () => this.clone.remove();
